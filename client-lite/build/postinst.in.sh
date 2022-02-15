@@ -54,24 +54,24 @@ chmod g+w $config_path
 configure_dir "$log_path"
 
 # See https://www.freedesktop.org/software/systemd/man/systemd.directives.html
-echo "Installing $svc_name"
-cat > ${svc_config_path} << EOF
-[Unit]
-Description=$svc_name: Performs content delivery optimization tasks
-
-[Service]
-ExecStart=$svc_bin_path
-Restart=on-failure
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-echo "Service conf stored at: $svc_config_path"
-echo "Service bin located at: $svc_bin_path"
-echo "Reloading systemd daemon list and enabling $svc_name"
-systemctl daemon-reload
-systemctl enable $svc_name
-systemctl stop $svc_name > /dev/null # stop if already running
-systemctl start $svc_name
-echo "Done!"
+#echo "Installing $svc_name"
+#cat > ${svc_config_path} << EOF
+#[Unit]
+#Description=$svc_name: Performs content delivery optimization tasks
+#
+#[Service]
+#ExecStart=$svc_bin_path
+#Restart=on-failure
+#
+#[Install]
+#WantedBy=multi-user.target
+#EOF
+#
+#echo "Service conf stored at: $svc_config_path"
+#echo "Service bin located at: $svc_bin_path"
+#echo "Reloading systemd daemon list and enabling $svc_name"
+#systemctl daemon-reload
+#systemctl enable $svc_name
+#systemctl stop $svc_name > /dev/null # stop if already running
+#systemctl start $svc_name
+#echo "Done!"
