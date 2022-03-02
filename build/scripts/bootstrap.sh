@@ -22,7 +22,7 @@ function usage {
     cat <<EOM
 $(basename $0) - Script to setup development environments for Delivery Optimization
 Usage: $(basename $0) --platform <platform to install for> --install <install command>
-    --platform          # Platform to provision, supported platforms: ubuntu1804, ubuntu2004, debian9, debian 10, osx. Required
+    --platform          # Platform to provision, supported platforms: ubuntu1804, ubuntu2004, debian9, debian 10, debian 11, osx. Required
     --install           # Which command to run, supported commands: build, developertools, containertools, qemu, all. Default is all
 EOM
     exit 1
@@ -39,7 +39,7 @@ function parseArgs {
             ;;
         --platform | -p)
             PLATFORM="${2,,}"
-            if [[ "$PLATFORM" == "debian9" || "$PLATFORM" == "debian10" || "$PLATFORM" == "ubuntu1804" || "$PLATFORM" == "ubuntu2004" || "$PLATFORM" == "osx" ]];
+            if [[ "$PLATFORM" == "debian9" || "$PLATFORM" == "debian10" || "$PLATFORM" == "debian11" || "$PLATFORM" == "ubuntu1804" || "$PLATFORM" == "ubuntu2004" || "$PLATFORM" == "osx" ]];
             then
                 echo -e "[INFO] Platform set to: ${PLATFORM}"
             else
@@ -84,7 +84,7 @@ function installBuildDependencies
     elif isSupportedLinux
     then
 
-        apt-get install -y make build-essential g++ gdb gdbserver gcc git wget
+        apt-get install -y make build-essential file g++ gdb gdbserver gcc git wget
         apt-get install -y python3 ninja-build
 
         if [[ "$PLATFORM" == "debian9" ]];
@@ -108,7 +108,7 @@ function installBuildDependencies
         mkdir /tmp/gtest
         cd /tmp/gtest
 
-        if [[ "$PLATFORM" == "ubuntu2004" || "$PLATFORM" == "debian10" ]];
+        if [[ "$PLATFORM" == "ubuntu2004" || "$PLATFORM" == "debian10" || "$PLATFORM" == "debian11" ]];
         then
             # The latest native-version of gtest on ubuntu2004 and debian10 currently has a bug where CMakeLists doesn't declare an install target, causing 'make install' to fail
             # Clone from source and use release-1.10.0 instead, since gtest is a source package anyways
@@ -196,7 +196,7 @@ function installAll
 
 function isSupportedLinux()
 {
-    if [[ "$PLATFORM" == "debian9" || "$PLATFORM" == "debian10" || "$PLATFORM" == "ubuntu1804" || "$PLATFORM" == "ubuntu2004" ]];
+    if [[ "$PLATFORM" == "debian9" || "$PLATFORM" == "debian10" || "$PLATFORM" == "debian11" || "$PLATFORM" == "ubuntu1804" || "$PLATFORM" == "ubuntu2004" ]];
     then
         return 0
     else
